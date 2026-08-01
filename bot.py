@@ -117,6 +117,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.info(f"Получено сообщение от {update.effective_user.id}: {update.message.text}")
     clear_history(update.effective_user.id)
     await update.message.reply_text("Контекст очищен. Расскажи с чего начнём?")
 
