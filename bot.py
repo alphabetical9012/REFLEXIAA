@@ -62,7 +62,7 @@ def init_db():
                 )
             """)
             cur.execute("""
-                SELECT setval('messages_id_seq', COALESCE((SELECT MAX(id) FROM messages), 1), false);
+                SELECT setval('messages_id_seq', COALESCE((SELECT MAX(id) FROM messages), 1));
             """)
         conn.commit()
     logger.info("База данных инициализирована")
