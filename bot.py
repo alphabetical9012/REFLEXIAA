@@ -61,6 +61,9 @@ def init_db():
                     created_at TIMESTAMP DEFAULT NOW()
                 )
             """)
+            cur.execute("""
+                SELECT setval('messages_id_seq', COALESCE((SELECT MAX(id) FROM messages), 1), false);
+            """)
         conn.commit()
     logger.info("База данных инициализирована")
 
@@ -129,7 +132,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         save_message(user_id, "model", reply)
         await update.message.reply_text(reply)
     except Exception as e:
-        logger.error(f"Ошибка: {e}")
+        logger.exception(f"Ошибка в handle_message: ")
         await update.message.reply_text("Что-то пошло не так. Попробуй ещё раз или напиши /reset")
 
 async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
